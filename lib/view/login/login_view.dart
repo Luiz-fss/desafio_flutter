@@ -1,6 +1,8 @@
 import 'package:desafio_flutter/view-models/login_cubit/login_cubit.dart';
 import 'package:desafio_flutter/view-models/login_cubit/login_cubit_model.dart';
+import 'package:desafio_flutter/view/components/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -12,6 +14,11 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+
+  TextEditingController _textEditingControllerCpf = TextEditingController();
+  TextEditingController _textEditingControllerName = TextEditingController();
+  TextEditingController _textEditingControllerEmail = TextEditingController();
+  TextEditingController _textEditingControllerPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -109,28 +116,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
 
                             const SizedBox(height: 24),
-
-                            TextField(
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                hintText: "CPF",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            TextField(
-                              obscureText: true,
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                hintText: "Senha",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
+                            ..._buildFields(state.isLogin),
                             const SizedBox(height: 16),
 
                             Row(
@@ -211,4 +197,62 @@ class _LoginViewState extends State<LoginView> {
       },
     );
   }
+
+  List<Widget> _buildFields(bool isLogin) {
+    if (isLogin) {
+      return [
+        CustomTextField(
+         controller: _textEditingControllerCpf,
+          hintText: "CPF",
+          obscureText: false,
+          maskText: "###.###.###-##",
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          obscureText: true,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            hintText: "Senha",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ];
+    } else {
+      return [
+        TextField(
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            hintText: "Nome",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            hintText: "CPF",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          obscureText: true,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            hintText: "Senha",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ];
+    }
+  }
+
 }
