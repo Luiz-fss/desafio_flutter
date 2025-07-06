@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -14,19 +15,19 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-
   TextEditingController _textEditingControllerCpf = TextEditingController();
   TextEditingController _textEditingControllerName = TextEditingController();
   TextEditingController _textEditingControllerEmail = TextEditingController();
-  TextEditingController _textEditingControllerPassword = TextEditingController();
+  TextEditingController _textEditingControllerPassword =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return BlocBuilder<LoginCubit,LoginCubitModel>(
+    return BlocBuilder<LoginCubit, LoginCubitModel>(
       bloc: BlocProvider.of<LoginCubit>(context),
-      builder: (context,state){
+      builder: (context, state) {
         return Scaffold(
           body: Stack(
             children: [
@@ -50,144 +51,181 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
-
-              Align(
-                alignment: Alignment.center,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: size.width * 0.85,
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    context.read<LoginCubit>().setIsLogin(true);
-                                  },
-                                  child: Text(
-                                    "Entrar",
-                                    style: TextStyle(
-                                      fontWeight: state.isLogin
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                      color: state.isLogin
-                                          ? Colors.green
-                                          : Colors.grey,
-                                      fontSize: 18,
+              Container(
+                margin: const EdgeInsets.only(top: 24),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width:kIsWeb ? size.width * 0.3 : size.width * 0.85,
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .read<LoginCubit>()
+                                          .setIsLogin(true);
+                                    },
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Entrar",
+                                          style: TextStyle(
+                                            fontWeight: state.isLogin
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                            color: state.isLogin
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Visibility(
+                                          visible: state.isLogin,
+                                          child: Container(
+                                            height: 2,
+                                            width: 40,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                const SizedBox(width: 24),
-                                GestureDetector(
-                                  onTap: () {
-                                    context.read<LoginCubit>().setIsLogin(false);
-                                  },
-                                  child: Text(
-                                    "Cadastrar",
-                                    style: TextStyle(
-                                      fontWeight: !state.isLogin
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                      color: !state.isLogin
-                                          ? Colors.green
-                                          : Colors.grey,
-                                      fontSize: 18,
+                                  const SizedBox(width: 24),
+                                  GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .read<LoginCubit>()
+                                          .setIsLogin(false);
+                                    },
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Cadastrar",
+                                          style: TextStyle(
+                                            fontWeight: !state.isLogin
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                            color: !state.isLogin
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Visibility(
+                                          visible: !state.isLogin,
+                                          child: Container(
+                                            height: 2,
+                                            width: 60,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-
-                            const SizedBox(height: 24),
-                            ..._buildFields(state.isLogin),
-                            const SizedBox(height: 16),
-
-                            Row(
-                              children: [
-                                Checkbox(
-                                  value: state.rememberMe,
-                                  onChanged: (value) {
-                                    context.read<LoginCubit>().toggleRememberMe();
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+                              ..._buildFields(state.isLogin),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: state.rememberMe,
+                                    onChanged: (value) {
+                                      context
+                                          .read<LoginCubit>()
+                                          .toggleRememberMe();
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    activeColor: Colors.green,
                                   ),
-                                  activeColor: Colors.green,
-                                ),
-                                const Text("Lembrar sempre"),
-                                const Spacer(),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "Esqueceu sua senha?",
-                                    style: TextStyle(color: Colors.green),
+                                  const Text("Lembrar sempre"),
+                                  const Spacer(),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text(
+                                      "Esqueceu sua senha?",
+                                      style: TextStyle(color: Colors.green),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
 
-                      // Botão redondo (sobreposto)
-                      Transform.translate(
-                        offset: const Offset(0, -30),
-                        child: GestureDetector(
-                          onTap: () {
-                            // ação de login
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            decoration: const BoxDecoration(
-                              color: Colors.green,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
+                        // Botão redondo (sobreposto)
+                        Transform.translate(
+                          offset: const Offset(0, -30),
+                          child: GestureDetector(
+                            onTap: () {
+                              // ação de login
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 60,
+                              decoration: const BoxDecoration(
+                                color: Colors.green,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
 
-                      const SizedBox(height: 60),
+                        const SizedBox(height: 60),
 
-                      // Redes sociais
-                      const Text(
-                        "Acesse através das redes sociais",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      const SizedBox(height: 16),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(FontAwesomeIcons.google, size: 40, color: Colors.white),
-                          SizedBox(width: 24),
-                          FaIcon(FontAwesomeIcons.facebookF, size: 40, color: Colors.white),
-                          SizedBox(width: 24),
-                          FaIcon(FontAwesomeIcons.twitter, size: 40, color: Colors.white),
-                        ],
-                      ),
-                      const SizedBox(height: 40),
-                    ],
+                        // Redes sociais
+                        const Text(
+                          "Acesse através das redes sociais",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        const SizedBox(height: 16),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FaIcon(FontAwesomeIcons.google,
+                                size: 40, color: Colors.white),
+                            SizedBox(width: 24),
+                            FaIcon(FontAwesomeIcons.facebookF,
+                                size: 40, color: Colors.white),
+                            SizedBox(width: 24),
+                            FaIcon(FontAwesomeIcons.twitter,
+                                size: 40, color: Colors.white),
+                          ],
+                        ),
+                        const SizedBox(height: 40),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -202,57 +240,50 @@ class _LoginViewState extends State<LoginView> {
     if (isLogin) {
       return [
         CustomTextField(
-         controller: _textEditingControllerCpf,
+          controller: _textEditingControllerCpf,
           hintText: "CPF",
           obscureText: false,
+          keyboardType: TextInputType.number,
           maskText: "###.###.###-##",
         ),
         const SizedBox(height: 16),
-        TextField(
+        CustomTextField(
+          controller: _textEditingControllerPassword,
+          hintText: "Senha",
           obscureText: true,
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "Senha",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
+          keyboardType: TextInputType.number,
         ),
       ];
     } else {
       return [
-        TextField(
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "Nome",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
+        CustomTextField(
+          controller: _textEditingControllerName,
+          hintText: "Nome",
+          obscureText: false,
+          keyboardType: TextInputType.number,
         ),
         const SizedBox(height: 16),
-        TextField(
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "CPF",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
+        CustomTextField(
+          controller: _textEditingControllerCpf,
+          hintText: "CPF",
+          obscureText: false,
+          keyboardType: TextInputType.number,
+          maskText: "###.###.###-##",
         ),
         const SizedBox(height: 16),
-        TextField(
+        CustomTextField(
+          controller: _textEditingControllerEmail,
+          hintText: "Email",
           obscureText: true,
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "Senha",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
+        ),
+        const SizedBox(height: 16),
+        CustomTextField(
+          controller: _textEditingControllerPassword,
+          hintText: "Senha",
+          obscureText: true,
+          keyboardType: TextInputType.number,
         ),
       ];
     }
   }
-
 }
