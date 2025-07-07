@@ -31,3 +31,10 @@ App Flutter com autenticação Firebase, cadastro de usuário, Firestore e geren
 ### Tela de Cadastro de Usuário
 ![Cadastrar View_web](./assets/images/cadastrar_web.png)
 
+### Drawer
+![Drawer View_web](./assets/images/drawer_web.png)
+
+### Menu Principal
+![Home View_web](./assets/images/home_web.png)
+
+
