@@ -153,6 +153,7 @@ class _LoginViewState extends State<LoginView> {
                               ..._buildFields(state.isLogin),
                               const SizedBox(height: 16),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Checkbox(
                                     value: state.rememberMe,
@@ -167,12 +168,15 @@ class _LoginViewState extends State<LoginView> {
                                     activeColor: Colors.green,
                                   ),
                                   const Text("Lembrar sempre"),
-                                  const Spacer(),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      "Esqueceu sua senha?",
-                                      style: TextStyle(color: Colors.green),
+
+                                  Flexible(
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        "Esqueceu sua senha?",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(color: Colors.green),
+                                      ),
                                     ),
                                   ),
                                 ],

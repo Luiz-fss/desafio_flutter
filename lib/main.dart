@@ -2,6 +2,7 @@ import 'package:desafio_flutter/firebase_options.dart';
 import 'package:desafio_flutter/view/home/home_view.dart';
 import 'package:desafio_flutter/view/login/login_view.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:desafio_flutter/view-models/login_cubit/login_cubit.dart';
@@ -9,7 +10,11 @@ import 'package:desafio_flutter/view-models/login_cubit/login_cubit.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Firebase.apps.isEmpty) {
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: firebaseOptionsWeb,
+    );
+  } else {
     await Firebase.initializeApp();
   }
 

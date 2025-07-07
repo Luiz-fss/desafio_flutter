@@ -1,27 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 
-class DefaultFirebaseOptions {
-  static FirebaseOptions get currentPlatform {
-    if (kIsWeb) {
-      return const FirebaseOptions(
-        apiKey: 'SUA_API_KEY',
-        authDomain: 'SEU_AUTH_DOMAIN.firebaseapp.com',
-        projectId: 'SEU_PROJECT_ID',
-        storageBucket: 'SEU_PROJECT_ID.appspot.com',
-        messagingSenderId: 'SEU_MESSAGING_SENDER_ID',
-        appId: 'SEU_APP_ID',
-        measurementId: 'SUA_MEASUREMENT_ID',
-      );
-    }
-
-    // Android
-    return const FirebaseOptions(
-      apiKey: 'SUA_API_KEY',
-      appId: 'SEU_APP_ID_ANDROID',
-      messagingSenderId: 'SEU_MESSAGING_SENDER_ID',
-      projectId: 'SEU_PROJECT_ID',
-      storageBucket: 'SEU_PROJECT_ID.appspot.com',
-    );
-  }
-}
+const FirebaseOptions firebaseOptionsWeb = FirebaseOptions(
+  apiKey: "AIzaSyAFKrLSffGtvnpVXnBH1WL7m6yjGGm6od0",
+  authDomain: "flutter-desafio-41951.firebaseapp.com",
+  projectId: "flutter-desafio-41951",
+  storageBucket: "flutter-desafio-41951.firebasestorage.app",
+  messagingSenderId: "910070545186",
+  appId: "1:910070545186:web:44a546b30ad6213dd5837b",
+);

@@ -1,16 +1,24 @@
-# desafio_flutter
+# Desafio Flutter
 
-A new Flutter project.
+App Flutter com autenticação Firebase, cadastro de usuário, Firestore e gerenciamento via Cubit (Flutter Bloc).
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## Funcionalidades
 
-A few resources to get you started if this is your first Flutter project:
+- Registro de usuário com email, senha, CPF e nome
+- Login com CPF e senha
+- Salvar dados do usuário no Firestore
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tecnologias
+
+- Flutter
+- Firebase Authentication
+- Cloud Firestore
+- Flutter Bloc (Cubit)
+- Flutter WebView
+- Arquitetura MVVM
+
+---

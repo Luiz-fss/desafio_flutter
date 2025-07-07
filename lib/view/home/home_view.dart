@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
     return BlocBuilder<LoginCubit,LoginCubitModel>(
       builder: (context,state){
         return Scaffold(
-          backgroundColor: Colors.black, // Fundo preto global
+          backgroundColor: Colors.black,
           appBar: AppBar(
             backgroundColor: Colors.black,
             iconTheme: const IconThemeData(color: Colors.white),
@@ -49,8 +49,8 @@ class HomeView extends StatelessWidget {
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Color(0xFF81C784), // Verde
-                            Color(0xFFFFF176), // Amarelo
+                            Color(0xFF81C784),
+                            Color(0xFFFFF176),
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -106,7 +106,7 @@ class HomeView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => WebViewPage(
+                                  builder: (_) => const WebViewPage(
                                     url: "https://jsonplaceholder.typicode.com/",
                                     title: "Carro",
                                   ),
@@ -169,7 +169,7 @@ class HomeView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           const Text(
                             "Adicionar membro da família",
                             textAlign: TextAlign.center,
@@ -219,8 +219,8 @@ class HomeView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: 16),
-                          Text(
+                          const SizedBox(height: 16),
+                          const Text(
                             "Você ainda não possui seguros contratados",
                             textAlign: TextAlign.center,
                             style: TextStyle(

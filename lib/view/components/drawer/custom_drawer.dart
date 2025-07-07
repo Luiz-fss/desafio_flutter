@@ -1,4 +1,4 @@
-import 'package:desafio_flutter/main.dart';
+
 import 'package:desafio_flutter/view-models/login_cubit/login_cubit.dart';
 import 'package:desafio_flutter/view/components/drawer/drawer_tile_data.dart';
 import 'package:desafio_flutter/view/login/login_view.dart';
@@ -20,32 +20,31 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Stack(
         children: [
-          // Fundo preto
           Container(
             color: Colors.black,
           ),
           ListView(
             padding: const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
             children: [
-              // HEADER
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Olá sozinho
-                    const Text(
-                      "Olá,",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 18,
+                    Container(
+                      margin: const EdgeInsets.only(top: 24),
+                      child: const Text(
+                        "Olá,",
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),
-                    // Avatar + nome na mesma Row
                     Row(
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 30,
                           backgroundColor: Colors.white24,
                           child: Icon(
@@ -70,10 +69,7 @@ class CustomDrawer extends StatelessWidget {
                   ],
                 ),
               ),
-
               const Divider(color: Colors.white30),
-
-              // DRAWER TILES
               DrawerTile(
                 icon: Icons.settings,
                 text: "Home / Seguros",
@@ -121,14 +117,11 @@ class CustomDrawer extends StatelessWidget {
               ),
               DrawerTile(
                 icon: Icons.settings,
-                text: "configurações",
+                text: "Configurações",
                 onTap: () => onTapDrawerItem?.call(9),
               ),
-
               const Divider(color: Colors.white30),
-
               const SizedBox(height: 20),
-
               InkWell(
                 onTap: () async{
                   await context.read<LoginCubit>().signOut();
@@ -139,14 +132,14 @@ class CustomDrawer extends StatelessWidget {
                 child: Container(
                   height: 50,
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(
                         Icons.exit_to_app,
                         color: Colors.white70,
                       ),
-                      const SizedBox(width: 16),
-                      const Text(
+                      SizedBox(width: 16),
+                      Text(
                         "Fazer Logout",
                         style: TextStyle(
                           color: Colors.white70,

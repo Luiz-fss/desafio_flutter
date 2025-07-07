@@ -72,15 +72,12 @@ class LoginRepository extends ILoginRepository {
         throw Exception("Falha ao obter UID do usuário.");
       }
 
-      // Cria UserModel
       final userModel = UserModel(
         id: uid,
         name: name,
         email: email,
         cpf: cpf,
       );
-
-      // Salva no Firestore usando toMap()
       await _firestore
           .collection("users")
           .doc(uid)
