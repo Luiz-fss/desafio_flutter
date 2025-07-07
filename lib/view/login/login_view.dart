@@ -1,6 +1,7 @@
 import 'package:desafio_flutter/view-models/login_cubit/login_cubit.dart';
 import 'package:desafio_flutter/view-models/login_cubit/login_cubit_model.dart';
-import 'package:desafio_flutter/view/components/custom_text_field.dart';
+import 'package:desafio_flutter/view/components/inputs/custom_text_field.dart';
+import 'package:desafio_flutter/view/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -179,13 +180,17 @@ class _LoginViewState extends State<LoginView> {
                             ],
                           ),
                         ),
-
-                        // Botão redondo (sobreposto)
                         Transform.translate(
                           offset: const Offset(0, -30),
                           child: GestureDetector(
-                            onTap: () {
-                              // ação de login
+                            onTap: () async{
+                              bool login = context.read<LoginCubit>().state.isLogin;
+                              if(login){
+                               await _login();
+                               return;
+                              }
+                              await _registerUser();
+
                             },
                             child: Container(
                               width: 60,
@@ -201,10 +206,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 60),
-
-                        // Redes sociais
                         const Text(
                           "Acesse através das redes sociais",
                           style: TextStyle(color: Colors.white, fontSize: 16),
@@ -260,7 +262,7 @@ class _LoginViewState extends State<LoginView> {
           controller: _textEditingControllerName,
           hintText: "Nome",
           obscureText: false,
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.text,
         ),
         const SizedBox(height: 16),
         CustomTextField(
@@ -274,7 +276,6 @@ class _LoginViewState extends State<LoginView> {
         CustomTextField(
           controller: _textEditingControllerEmail,
           hintText: "Email",
-          obscureText: true,
         ),
         const SizedBox(height: 16),
         CustomTextField(
@@ -285,5 +286,96 @@ class _LoginViewState extends State<LoginView> {
         ),
       ];
     }
+  }
+
+  Future<void> _login() async {
+    bool validFields = _validateFieldsForLogin();
+    if (validFields) {
+      try {
+        await context.read<LoginCubit>().login(
+          _textEditingControllerCpf.text,
+          _textEditingControllerPassword.text,
+        );
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+        return;
+      } catch (e) {
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Erro ao fazer login"),
+            content: Text(e.toString()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text("OK"),
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      // Mostra erro de campos inválidos
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Erro"),
+          content: const Text("Campos inválidos"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<void> _registerUser()async{
+    bool validFiels = _validateFields();
+    if(validFiels){
+      await context.read<LoginCubit>().registerUser(_textEditingControllerCpf.text,
+          _textEditingControllerName.text,
+          _textEditingControllerPassword.text,
+          _textEditingControllerEmail.text
+      );
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeView()));
+      return;
+    }
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Erro"),
+        content: Text("Campos inválidos"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool _validateFields(){
+    if (_textEditingControllerName.text.isEmpty ||
+        _textEditingControllerEmail.text.isEmpty ||
+        _textEditingControllerCpf.text.isEmpty ||
+        _textEditingControllerPassword.text.isEmpty) {
+     return false;
+    }
+    return true;
+  }
+
+  bool _validateFieldsForLogin(){
+    if (
+        _textEditingControllerCpf.text.isEmpty ||
+        _textEditingControllerPassword.text.isEmpty) {
+      return false;
+    }
+    return true;
   }
 }

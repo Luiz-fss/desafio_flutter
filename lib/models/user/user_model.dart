@@ -33,5 +33,24 @@ class UserModel {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': id,
+      'name': name,
+      'email': email,
+      'cpf': cpf,
+    };
+  }
+
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      id: map['uid'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      cpf: map['cpf'] ?? '',
+    );
+  }
+
+
 
 }
